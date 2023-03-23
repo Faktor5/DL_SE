@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-
-"""
-Read articles from Wikipedia
-vers 0.5
-
-source: https://www.geeksforgeeks.org/how-to-extract-wikipedia-data-in-python/
-"""
-
 from bs4 import *
 import requests
 import re
