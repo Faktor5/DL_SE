@@ -1,4 +1,4 @@
-# Ausführen des Projektes
+# AusfÃ¼hren des Projektes
 `python app.py`
 
 # Ordner
