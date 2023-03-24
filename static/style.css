@@ -1,0 +1,46 @@
+body {
+    background-image: url('pattern.png');
+    animation: background-animation 200s linear infinite;
+  }
+  
+  @keyframes background-animation {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: 1000px 1000px;
+    }
+  }
+  
+  .container {
+    margin: 100px auto;
+    width: 50%;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 72px;
+    font-weight: bold;
+    margin-bottom: 50px;
+  }
+  
+  form {
+    display: inline-block;
+  }
+  
+  input[type="text"] {
+    border: none;
+    border-bottom: 3px solid #BBB;
+    font-size: 24px;
+    padding: 10px;
+    width: 70%;
+  }
+  
+  button[type="submit"] {
+    background-color: #4285F4;
+    border: none;
+    color: #FFF;
+    font-size: 24px;
+    padding: 10px 20px;
+  }
+  

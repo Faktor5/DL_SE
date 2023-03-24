@@ -101,25 +101,45 @@ def start_server():
         port=env["port"],
         debug=True)
 
-@app.route('/hello')
-def hello_world():
-    global check
-    return check.get_words_by_prefix("sch")
-
 def main():
+    start_time = time.time()
     prepare_corpus()
     train_model()
-    training_time = time.time()
-
+    training_time = time.time() - start_time
     print("Model is ready to use! (main.py)")
     print("Corpus is ready to be searched! (main.py)")
     print("------------------------------------")
-    print("Time to prepare corpus: " + str(round(training_time/1000)) + " seconds")
+    print("Time to prepare corpus: " + str(round(training_time)) + " seconds")
     print("------------------------------------")
-    print(words)
-
     start_server()
 
+#region flask routes
+
+@app.route('/words', methods=['GET'])
+def get_words_with_prefix():
+    global check
+    prefix = request.args.get('prefix')
+    if prefix is None:
+        prefix = "a"
+    return {
+        "words": check.get_words_by_prefix(prefix)
+    }
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html', title=env["site_name"])
+
+@app.route('/search')
+def search():
+    query = request.args.get('query')
+    results = search(query)
+    return f"Search results for {query}"
+
+#endregion
+
+def search(query):
+    cl_query = dc.clean_text(query)
+    v_query = model.transform([cl_query])
 
 if __name__ == "__main__":
     main()
