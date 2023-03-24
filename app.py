@@ -1,11 +1,13 @@
 import os
 import re
+import time
 import pandas as pd
 import libraries.wikip as wikip
 import libraries.corpus_loader as cl
 import libraries.data_cleaner as dc
 from libraries.corpus_filter import CorpusFilter
 from sklearn.feature_extraction.text import TfidfVectorizer
+from flask import Flask, render_template, request
 from dotenv import load_dotenv
 
 #region environment variables
@@ -17,6 +19,9 @@ env = {
     "max_df"    : os.getenv("max_df"),
     "max_articles"  : int(os.getenv("max_articles")),
     "site_name": os.getenv("site_name"),
+    "host": os.getenv("host"),
+    "port": int(os.getenv("port")),
+    "encoding": os.getenv("encoding"),
 }
 #endregion
 
@@ -39,6 +44,9 @@ model = TfidfVectorizer(max_df = float(env["max_df"]))
 # which is used to search the corpus, articles and words
 # in a simple and easy way
 ArticleFilter = None
+
+# the flask app
+app = Flask(env["site_name"])
 
 #endregion
 
@@ -63,9 +71,9 @@ def prepare_corpus():
     })
 
 def train_model():
-    global articles
+    global check
     global model
-    global article_word_matrix, words
+    global articles,article_word_matrix, words
     
     # train the model with the articles (texts)
     # from the dataframe articles as a list
@@ -82,26 +90,36 @@ def train_model():
         transformed.todense(),
         columns=words)
 
+    # a tool to filter and walk through the created and organised data
+    # just for the developer to understand his own data
+    check = CorpusFilter(articles, words, article_word_matrix)
+
 def start_server():
-    "bruh"
+    global app
+    app.run(
+        host=env["host"],
+        port=env["port"],
+        debug=True)
+
+@app.route('/hello')
+def hello_world():
+    global check
+    return check.get_words_by_prefix("sch")
 
 def main():
-    time = 0
     prepare_corpus()
     train_model()
-    check = CorpusFilter(articles, words, article_word_matrix)
-    time2 = time.time()
-    # print(check.get_words_by_prefix("sch"))
-    # result_test = check.article_info(1)
-    # print(result_test['title'])
-    # print(result_test['url'])
-    # print( {k: result_test['vector'][k] for k in list(result_test['vector'])[:10]} )
+    training_time = time.time()
 
     print("Model is ready to use! (main.py)")
     print("Corpus is ready to be searched! (main.py)")
     print("------------------------------------")
-    print("Time to prepare corpus: " + str(time2 - time) + " seconds")
+    print("Time to prepare corpus: " + str(round(training_time/1000)) + " seconds")
     print("------------------------------------")
+    print(words)
+
+    start_server()
+
 
 if __name__ == "__main__":
     main()

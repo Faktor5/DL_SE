@@ -1,3 +1,9 @@
+# print(check.get_words_by_prefix("sch"))
+    # result_test = check.article_info(1)
+    # print(result_test['title'])
+    # print(result_test['url'])
+    # print( {k: result_test['vector'][k] for k in list(result_test['vector'])[:10]} )
+
 def article_info(index):
     global articles, article_word_matrix, words
     title = articles["title"].iloc[index]
