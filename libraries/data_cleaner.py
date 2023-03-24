@@ -12,7 +12,7 @@ def clean_text(text):
     text = text.lower()
     
     # lemmitization
-    nlp = spacy.load('en_core_web_sm')
+    nlp = spacy.load('de_core_news_sm')
     doc = nlp(text)
     tokens = [token.lemma_ for token in doc]
     text = ' '.join(tokens)
