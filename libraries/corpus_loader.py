@@ -2,6 +2,6 @@ import libraries.wikip as wikip
 import pandas as pd
 
 def load_corpus(env):
-    article_files = pd.read_csv(env["Article_File"]).head(2)
+    article_files = pd.read_csv(env["Article_File"]).head(env["max_articles"])
     urls = article_files["url"]
-    return [wikip.get_wikipedia_text(url) for url in urls], article_files["name"]
+    return [wikip.get_wikipedia_text(url) for url in urls], article_files["name"], article_files["url"]
