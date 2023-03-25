@@ -8,6 +8,7 @@ from spacy.lang.en.stop_words import STOP_WORDS
 from string import punctuation
 
 def clean_text(text):
+    print("Cleaning text...")
     # Converting to Lowercase
     text = text.lower()
     

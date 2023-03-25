@@ -59,7 +59,7 @@ body {
 .title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
+  color: darkblue;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -85,16 +85,8 @@ body {
   border-radius: 4px;
 }
 
-.results li:nth-child(odd) .title {
-  background-color: #f2f2f2;
-}
-
 .results li:nth-child(odd) .result-score {
   background-color: #007bff;
-}
-
-.results li:nth-child(even) .title {
-  background-color: #eaeaea;
 }
 
 .results li:nth-child(even) .result-score {

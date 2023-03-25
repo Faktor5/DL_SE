@@ -30,9 +30,9 @@ env = {
 
 # [word1, word2, word3, ...] -> List
 words = None
-# {title, article, url}
-# Index 1: {title, article, url}
-# Index 2: {title, article, url}
+# {title, article, url, raw}
+# Index 1: {title, article, url, raw}
+# Index 2: {title, article, url, raw}
 articles = None
 # {word1word2, word3}
 # Article 1: {word1: 0.1, word2: 0.2, word3: 0.3, ...}
@@ -62,13 +62,14 @@ def prepare_corpus():
     urls_articles = loaded_articles[2]
     
     # clean the articles with the data cleaner
-    list_articles = list(map(lambda x: dc.clean_text(x), list_articles))
-    
+    cl_articles = list(map(lambda x: dc.clean_text(x), list_articles))
+
     # save the articles in a dataframe articles
     articles = pd.DataFrame({
         "title": titles_articles,
-        "article": list_articles,
-        "url": urls_articles
+        "article": cl_articles,
+        "url": urls_articles,
+        "raw": list_articles
     })
 
 def train_model():
@@ -140,9 +141,10 @@ def search():
 @app.route('/article')
 def article():
     name = request.args.get('name')
-    text = check.article_text_by_name(name)
+    text = check.raw_by_name(name)
+    if text is None:
+        return render_template('404.html', title=env["site_name"], message="der Artikel wurde nicht gefunden")
     return render_template('article.html', title=env["site_name"], name=name, text=text)
-
 
 #endregion
 

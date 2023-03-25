@@ -57,3 +57,9 @@ class CorpusFilter:
 
     def get_shape_word_article_matrix(self):
         return self.word_article_matrix.shape[0], self.word_article_matrix.shape[1]
+    
+    def raw_by_name(self, name):
+        collect =  self.articles[self.articles["title"] == name]['raw']
+        if collect.values.size == 0:
+            return None
+        return collect.iloc[0]
