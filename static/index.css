@@ -1,0 +1,8 @@
+.container {
+    /* margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 10px; */
+    min-width: 500px;
+}

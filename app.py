@@ -142,9 +142,10 @@ def search():
 def article():
     name = request.args.get('name')
     text = check.raw_by_name(name)
+    url = check.article_url_by_name(name)
     if text is None:
         return render_template('404.html', title=env["site_name"], message="der Artikel wurde nicht gefunden")
-    return render_template('article.html', title=env["site_name"], name=name, text=text)
+    return render_template('article.html', title=env["site_name"], name=name, text=text, url=url)
 
 #endregion
 
