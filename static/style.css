@@ -2,6 +2,29 @@ body {
     background-image: url('pattern.png');
     animation: background-animation 200s linear infinite;
   }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  h1, h2, h3 {
+    font-weight: 700;
+    color: #444;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 48px;
+  }
+  
+  h2 {
+    font-size: 36px;
+  }
+  
+  h3 {
+    font-size: 24px;
+  }
+  
   
   @keyframes background-animation {
     0% {

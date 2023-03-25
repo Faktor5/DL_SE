@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Results for "{{ query }}"</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='search_results.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="search-results">
+        <h2>Search Results for "{{ query }}"</h2>
+        <ul class="results">
+        {% for article, score in results.items() %}
+          <li>
+            <div class="content">
+              <h3 class="title">{{article}}</h3>
+              <div class="buttons">
+                  <span class="result-score">{{score}}</span>
+                  <a href="{{ url_for('article', name=article) }}">Read more</a>
+                </div>
+            </div>
+          </li>
+        {% endfor %}
+          <!-- <li>
+            <div class="content">
+              <h3 class="title">Another Article Title</h3>
+              <div class="buttons">
+                  <span class="result-score">0.72</span>
+                  <a href="/article?title=title_of_another_search_result">Read more</a>
+                </div>
+            </div>
+          </li> -->
+          <!-- More search results here -->
+        </ul>
+      </div>      
+</body>
+</html>

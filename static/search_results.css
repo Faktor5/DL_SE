@@ -1,0 +1,123 @@
+.search-results {
+  background-color: #f2f2f2;
+  background-color: rgba(207, 206, 206, 0.603);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+}
+
+/* Add space on the left and right sides of the screen */
+body {
+  margin: 0;
+  padding: 0 20%;
+}
+
+/* Style the search result items */
+.search-result {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 300px;
+  margin-bottom: 20px;
+}
+
+.search-result .title {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.search-result .score {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.results li {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.results li:last-child {
+  border-bottom: none;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.title:hover {
+  color: #007bff;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.result-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.results li:nth-child(odd) .title {
+  background-color: #f2f2f2;
+}
+
+.results li:nth-child(odd) .result-score {
+  background-color: #007bff;
+}
+
+.results li:nth-child(even) .title {
+  background-color: #eaeaea;
+}
+
+.results li:nth-child(even) .result-score {
+  background-color: #ff8800;
+}
+
+.buttons {
+  width: 100%;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+gap: 10px;
+}
+
+.buttons a {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.buttons a:hover {
+  background-color: #3e8e41;
+}
