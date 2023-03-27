@@ -47,6 +47,9 @@ model = TfidfVectorizer(max_df = float(env["max_df"]))
 # in a simple and easy way
 check = None
 
+# if the model is trained or not, so that one can bypass multiple training iterations because of flask
+ready = False
+
 # the flask app
 app = Flask(env["site_name"])
 
@@ -97,6 +100,9 @@ def train_model():
     # just for the developer to understand his own data
     check = CorpusFilter(articles, words, article_word_matrix)
 
+def search(query):
+    return se.round_percent(se.top_filter(se.search(query, model, article_word_matrix, check)))
+
 def start_server():
     global app
     app.run(
@@ -105,15 +111,18 @@ def start_server():
         debug=True)
 
 def main():
-    start_time = time.time()
-    prepare_corpus()
-    train_model()
-    training_time = time.time() - start_time
-    print("Model is ready to use! (main.py)")
-    print("Corpus is ready to be searched! (main.py)")
-    print("------------------------------------")
-    print("Time to prepare corpus: " + str(round(training_time)) + " seconds")
-    print("------------------------------------")
+    global ready
+    if not ready:
+        start_time = time.time()
+        prepare_corpus()
+        train_model()
+        training_time = time.time() - start_time
+        print("Model is ready to use! (main.py)")
+        print("Corpus is ready to be searched! (main.py)")
+        print("------------------------------------")
+        print("Time to prepare corpus: " + str(round(training_time)) + " seconds")
+        print("------------------------------------")
+        ready = True
     start_server()
 
 #region flask routes
@@ -136,7 +145,7 @@ def index():
 def search():
     query = request.args.get('query')
     print(query)
-    results = se.round_percent(se.top_filter(se.search(query, model, article_word_matrix, check)))
+    results = search(query)
     return render_template('search.html', title=env["site_name"], query=query, results=results)
 
 @app.route('/article')
