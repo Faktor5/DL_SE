@@ -10,7 +10,7 @@ from string import punctuation
 def clean_text(text):
     print("Cleaning text...")
     # Converting to Lowercase
-    text = text.lower()
+    # text = text.lower()
     
     # lemmitization
     nlp = spacy.load('de_core_news_sm')
@@ -19,6 +19,6 @@ def clean_text(text):
     text = ' '.join(tokens)
     
     # Substituting multiple spaces with single space
-    text = re.sub(r'\s+', ' ', text, flags=re.I)
+    # text = re.sub(r'\s+', ' ', text, flags=re.I)
 
     return text
