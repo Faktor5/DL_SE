@@ -143,6 +143,8 @@ def article():
     name = request.args.get('name')
     text = check.raw_by_name(name)
     url = check.article_url_by_name(name)
+    # cleaned = check.article_text_by_name(name)
+    # print(cleaned)
     if text is None:
         return render_template('404.html', title=env["site_name"], message="der Artikel wurde nicht gefunden")
     return render_template('article.html', title=env["site_name"], name=name, text=text, url=url)
@@ -172,7 +174,9 @@ def search(query):
     print(check.get_shape_word_article_matrix()[0],check.get_shape_word_article_matrix()[1])
     print(v_query.shape)
     print(f"Comparable Vector {v_query}")
+    
     c_matrix = { v[0]:np.dot(v[1], v_query) / np.linalg.norm(v[1]) * np.linalg.norm(v_query) for v in zip(check.article_names(),article_word_matrix.values)}
+    
     print(f"Comparison Matrix {c_matrix}")
     cs_matrix = dict(sorted(c_matrix.items(), key=lambda x: x[1], reverse=True))
     print(f"Sorted Comparison Matrix {cs_matrix}")
