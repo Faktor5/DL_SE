@@ -3,6 +3,7 @@ import re
 import time
 import pandas as pd
 import numpy as np
+import sqlite3 as sql
 import libraries.wikip as wikip
 import libraries.corpus_loader as cl
 import libraries.data_cleaner as dc
@@ -28,6 +29,8 @@ env = {
     "saveLocal": bool(int(os.getenv("saveLocal"))),
     "localPath": os.getenv("localPath"),
     "localDB": os.getenv("localDB"),
+    "cleanedDB": os.getenv("cleanedDB"),
+    "cleanedPath": os.getenv("cleanedPath"),
 }
 #endregion
 
@@ -62,18 +65,21 @@ app = Flask(env["site_name"])
 def prepare_corpus():
     global articles
     # use the corpus loader to load the articles
-    loaded_articles = cl.load_corpus(env, dc)
+    loaded_articles = cl.load_corpus(env)
     
     # results -> wikipedia text, name in csv, url in csv
     list_articles = loaded_articles[0]
     titles_articles = loaded_articles[1]
     urls_articles = loaded_articles[2]
     
-    # clean the articles with the data cleaner
-    # if env["useLocal"] or env["saveLocal"]:
-        # cl_articles = loaded_articles[3]
-    # else:
-    cl_articles = list(map(lambda x: dc.clean_text(x), list_articles))
+    if env["useLocal"]:
+        conn = sql.connect(env["cleanedPath"])
+        cl_articles = pd.read_sql_query("SELECT * FROM " + env["cleanedDB"], conn)["text"]
+    else:
+        cl_articles = list(map(lambda x: dc.clean_text(x), list_articles))
+        if env["saveLocal"]:
+            conn = sql.connect(env["cleanedPath"])
+            pd.DataFrame({"text" : cl_articles}).to_sql(env["cleanedDB"], conn, if_exists="replace", index=True)
 
     # save the articles in a dataframe articles
     articles = pd.DataFrame({
@@ -116,6 +122,7 @@ def start_server():
         host=env["host"],
         port=env["port"],
         debug=True,
+        use_reloader=False
         )
 
 def main():
