@@ -24,6 +24,10 @@ env = {
     "host": os.getenv("host"),
     "port": int(os.getenv("port")),
     "encoding": os.getenv("encoding"),
+    "useLocal": bool(int(os.getenv("useLocal"))),
+    "saveLocal": bool(int(os.getenv("saveLocal"))),
+    "localPath": os.getenv("localPath"),
+    "localDB": os.getenv("localDB"),
 }
 #endregion
 
@@ -58,7 +62,7 @@ app = Flask(env["site_name"])
 def prepare_corpus():
     global articles
     # use the corpus loader to load the articles
-    loaded_articles = cl.load_corpus(env)
+    loaded_articles = cl.load_corpus(env, dc)
     
     # results -> wikipedia text, name in csv, url in csv
     list_articles = loaded_articles[0]
@@ -66,6 +70,9 @@ def prepare_corpus():
     urls_articles = loaded_articles[2]
     
     # clean the articles with the data cleaner
+    # if env["useLocal"] or env["saveLocal"]:
+        # cl_articles = loaded_articles[3]
+    # else:
     cl_articles = list(map(lambda x: dc.clean_text(x), list_articles))
 
     # save the articles in a dataframe articles
@@ -108,7 +115,8 @@ def start_server():
     app.run(
         host=env["host"],
         port=env["port"],
-        debug=True)
+        debug=True,
+        )
 
 def main():
     global ready
@@ -142,7 +150,7 @@ def index():
     return render_template('index.html', title=env["site_name"])
 
 @app.route('/search')
-def search():
+def searcher():
     query = request.args.get('query')
     print(query)
     results = search(query)
