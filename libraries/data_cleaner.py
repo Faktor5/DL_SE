@@ -1,11 +1,4 @@
-import pandas as pd
-import re
 import spacy
-from spacy.lang.en.stop_words import STOP_WORDS
-from spacy.lang.en import English
-from spacy.lang.en import English
-from spacy.lang.en.stop_words import STOP_WORDS
-from string import punctuation
 
 def clean_text(text):
     print("Cleaning text...")
